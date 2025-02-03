@@ -13,6 +13,7 @@ import { encodePassword, encodeToken } from '../../utils/bcrypt';
 import { Report as ReportEntity } from '../../models/Report';
 import { Student as StudentEntity } from '../../models/Student';
 import { JwtService } from '@nestjs/jwt';
+import { Console } from 'console';
 
 @Injectable()
 export class StudentService {
@@ -54,13 +55,13 @@ export class StudentService {
       if (isStudent) {
         throw new HttpException('Student exists already', HttpStatus.FORBIDDEN);
       }
-      const { password: _, ...user } = student
+      const { password: _, id, name, ...user } = student
      const token  =  await this.generateRefreshToken(user) 
      const tokenTwo = await this.generateAccessToken(user)
      const refreshToken = encodeToken(token)
      const accessToken = encodeToken(tokenTwo)
       await this.studentRepository.save({...student, createdAt: new Date(), refreshToken: refreshToken, is_revoked: false});
-      return {accessToken: accessToken}
+      return {accessToken: accessToken, name}
     } else {
       throw new HttpException("Student was not succesfully created", HttpStatus.BAD_REQUEST);
     }

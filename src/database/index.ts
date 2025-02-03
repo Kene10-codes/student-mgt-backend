@@ -1,5 +1,6 @@
 import { MysqlConnectionOptions } from "typeorm/driver/mysql/MysqlConnectionOptions";
 
+
 export const DB_INFOS: MysqlConnectionOptions = {
     type: 'mysql',
     host: process.env.DB_HOST,
