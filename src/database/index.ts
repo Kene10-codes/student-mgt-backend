@@ -10,4 +10,3 @@ export const DB_INFOS: MysqlConnectionOptions = {
     port: 14369
 }
 
-

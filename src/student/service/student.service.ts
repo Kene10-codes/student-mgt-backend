@@ -56,6 +56,7 @@ export class StudentService {
         throw new HttpException('Student exists already', HttpStatus.FORBIDDEN);
       }
       const { password: _, id, name, ...user } = student
+      console.log('id', id)
       const token = await this.generateRefreshToken(user)
       const tokenTwo = await this.generateAccessToken(user)
       const refreshToken = encodeToken(token)
@@ -97,17 +98,18 @@ export class StudentService {
 
 
   // get student 
-  async getStudentById(id: number): Promise<StudentEntity> {
-    const student = this.studentRepository.findOneByOrFail({ id })
-    if (!student) {
-      return student
+  async getStudentById(id: number) {
+    const student = await this.studentRepository.findOneBy({ id })
+    if (student) {
+      const { password: _, ...rest } = student
+      return rest
     } else {
       throw new HttpException("Student not found", HttpStatus.BAD_REQUEST)
     }
   }
 
   async deleteStudent(id: number) {
-    const student = this.studentRepository.delete({ id })
+    const student = await this.studentRepository.delete({ id })
     if (student) {
       return "Student deleted"
     } else {
@@ -116,7 +118,7 @@ export class StudentService {
   }
 
   async viewReport(studentId: number): Promise<ReportEntity> {
-    const studentReport = this.reportRepository.findOneByOrFail({ studentId })
+    const studentReport = await this.reportRepository.findOneByOrFail({ studentId })
     if (studentReport) {
       return studentReport
     } else {
