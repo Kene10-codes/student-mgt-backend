@@ -56,11 +56,9 @@ export class StudentService {
         throw new HttpException('Student exists already', HttpStatus.FORBIDDEN);
       }
       const { password: _, id, name, ...user } = student
-      console.log('id', id)
       const token = await this.generateRefreshToken(user)
-      const tokenTwo = await this.generateAccessToken(user)
+      const accessToken = await this.generateAccessToken(user)
       const refreshToken = encodeToken(token)
-      const accessToken = encodeToken(tokenTwo)
       await this.studentRepository.save({ ...student, createdAt: new Date(), refreshToken: refreshToken, is_revoked: false });
       return { accessToken: accessToken, name, id }
     } else {
