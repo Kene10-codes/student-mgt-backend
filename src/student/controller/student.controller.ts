@@ -8,13 +8,16 @@ import { Role } from "../../auth/roles/role.enum";
 import { RoleGuard } from "../../auth/guard/role.guard";
 import { CacheInterceptor, CacheKey } from "@nestjs/cache-manager";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Report as ReportEntity } from "../..//models/Report";
+import { Repository } from "typeorm";
 
 
 @ApiTags("student")
 @Controller('student')
 @UseInterceptors(CacheInterceptor)
 export class StudentController {
-    constructor(@Inject('STUDENT_SERVICE') private readonly studentService: StudentService) { }
+    constructor(@Inject('STUDENT_SERVICE') private readonly studentService: StudentService, @InjectRepository(ReportEntity) private readonly reportRepository: Repository<ReportEntity>) { }
 
     @ApiOperation({ summary: "Signs up a student" })
     @ApiResponse({ status: 201, description: "Signs up a studemt" })
@@ -75,4 +78,14 @@ export class StudentController {
     async deleteStudent(@Param('id', ParseIntPipe) id: number) {
         return await this.studentService.deleteStudent(id)
     }
+
+    @ApiOperation({ summary: "Get a student report" })
+    @ApiResponse({ status: 200, description: "Get a studemt report" })
+    @Get('report/:id')
+    @UseGuards(JWTGuard)
+    @Roles(Role.STUDENT, Role.ADMIN)
+    async viewReport(@Param('id', ParseIntPipe) id: number) {
+        return await this.studentService.viewReport(id)
+    }
+
 }
