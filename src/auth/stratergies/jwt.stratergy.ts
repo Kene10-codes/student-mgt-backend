@@ -4,8 +4,8 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 
 
 @Injectable()
-export class JWTStratergy extends PassportStrategy(Strategy){
-    constructor(){
+export class JWTStratergy extends PassportStrategy(Strategy) {
+    constructor() {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
@@ -14,7 +14,7 @@ export class JWTStratergy extends PassportStrategy(Strategy){
     }
 
     validate(userPayload: any) {
-        const {createdAt, refreshToken, is_revoked, iat, exp, ...payload} = userPayload
+        const { createdAt, refreshToken, is_revoked, iat, exp, ...payload } = userPayload
         return payload
     }
 }

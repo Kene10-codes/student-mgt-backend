@@ -1,9 +1,10 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { Report } from "./Report";
 import { Role } from "../auth/roles/role.enum";
 
 
 @Entity("students")
+@Unique(['email'])
 export class Student {
     @PrimaryGeneratedColumn({
         type: 'int'
@@ -36,7 +37,7 @@ export class Student {
     @Column()
     is_revoked: Boolean;
 
-    @OneToOne( () => Report)
+    @OneToOne(() => Report)
     @JoinColumn()
     report?: Report;
 }

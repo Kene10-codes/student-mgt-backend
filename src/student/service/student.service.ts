@@ -60,7 +60,9 @@ export class StudentService {
       const accessToken = await this.generateAccessToken(user)
       const refreshToken = encodeToken(token)
       await this.studentRepository.save({ ...student, createdAt: new Date(), refreshToken: refreshToken, is_revoked: false });
-      return { accessToken: accessToken, name, id }
+      const data = await this.studentRepository.findOneBy( {id})
+      const { roles } = data
+      return { accessToken: accessToken, name, id, roles }
     } else {
       throw new HttpException("Student was not succesfully created", HttpStatus.BAD_REQUEST);
     }

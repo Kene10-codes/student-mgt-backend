@@ -1,8 +1,9 @@
 import { Role } from "../auth/roles/role.enum";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 
 @Entity("teacher")
+@Unique(['email'])
 export class Teacher {
     @PrimaryGeneratedColumn({
         type: 'int'

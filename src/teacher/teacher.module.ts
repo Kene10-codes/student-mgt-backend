@@ -11,14 +11,14 @@ import { JwtModule } from "@nestjs/jwt";
         PassportModule,
         JwtModule.register({
             secret: process.env.SECRET_KEY,
-            signOptions: {expiresIn: process.env.EXPIRES_IN}
-          }),
+            signOptions: { expiresIn: process.env.EXPIRES_IN }
+        }),
         TypeOrmModule.forFeature([Teacher])],
     controllers: [TeacherController],
     providers: [{
-            provide: "TEACHER_SERVICE",
-            useClass: TeacherService
-        }]
+        provide: "TEACHER_SERVICE",
+        useClass: TeacherService
+    }]
 })
 
-export class TeacherModule {}
+export class TeacherModule { }

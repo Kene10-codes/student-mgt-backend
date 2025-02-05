@@ -8,10 +8,14 @@ import { StudentModule } from './student/student.module';
 import { TeacherModule } from './teacher/teacher.module';
 import { AuthModule } from './auth/auth.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { HealthModule } from './health/health.module';
 import * as redisStore from 'cache-manager-redis-store'
+import { TerminusModule } from '@nestjs/terminus';
 
 @Module({
   imports: [
+    TerminusModule,
+    HealthModule,
     CacheModule.register({
       ttl: 0,
       max: 100,
@@ -29,7 +33,7 @@ import * as redisStore from 'cache-manager-redis-store'
       password: DB_INFOS.password,
       entities,
       synchronize: true
-    }), StudentModule, TeacherModule, AuthModule],
+    }), StudentModule, TeacherModule, AuthModule, HealthModule],
   controllers: [AppController],
   providers: [AppService],
 })
