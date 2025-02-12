@@ -11,19 +11,19 @@ export class LocalStratergy extends PassportStrategy(Strategy) {
         })
     }
 
-   async  validate(email: string, password: string){
-    if(email === process.env.ADMIN) {
-        const admin = await this.authService.validateAdmin({email, password})
-        if(!admin) {
-            throw new HttpException("Invalid User Info", HttpStatus.NOT_FOUND)
-        }  
-        return admin
-    } else {
-        const user = await this.authService.validateStudent({email, password})
-        if(!user) {
-            throw new HttpException("Invalid User Info", HttpStatus.NOT_FOUND)
+    async validate(email: string, password: string) {
+        if (email === process.env.ADMIN) {
+            const admin = await this.authService.validateAdmin({ email, password })
+            if (!admin) {
+                throw new HttpException("Invalid User Info", HttpStatus.NOT_FOUND)
+            }
+            return admin
+        } else {
+            const user = await this.authService.validateStudent({ email, password })
+            if (!user) {
+                throw new HttpException("Invalid User Info", HttpStatus.NOT_FOUND)
+            }
+            return user
         }
-        return user
-    }
     }
 }

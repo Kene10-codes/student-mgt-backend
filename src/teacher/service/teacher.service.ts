@@ -34,7 +34,6 @@ export class TeacherService {
     const { password, email } = teacherDTO
     const teacher = this.teacherRepository.create({ roles: teacherDTO.roles, ...teacherDTO })
     teacher.password = encodePassword(password)
-    console.log("teacher", teacher)
     if (teacher) {
       const isAdmin = await this.teacherRepository.findOneBy({ email })
       if (isAdmin) {
