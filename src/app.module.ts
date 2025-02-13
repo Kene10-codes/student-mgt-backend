@@ -11,6 +11,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { HealthModule } from './health/health.module';
 import * as redisStore from 'cache-manager-redis-store'
 import { TerminusModule } from '@nestjs/terminus';
+import { SeederModule } from './seeders/seeder.module';
 
 @Module({
   imports: [
@@ -32,8 +33,8 @@ import { TerminusModule } from '@nestjs/terminus';
       username: DB_INFOS.username,
       password: DB_INFOS.password,
       entities,
-      synchronize: true
-    }), StudentModule, TeacherModule, AuthModule, HealthModule],
+      synchronize: false
+    }), StudentModule, TeacherModule, AuthModule, HealthModule, SeederModule],
   controllers: [AppController],
   providers: [AppService],
 })

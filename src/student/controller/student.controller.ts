@@ -36,7 +36,7 @@ export class StudentController {
     @Get()
     @CacheKey('students')
     @UseGuards(JWTGuard, RoleGuard)
-    @Roles(Role.ADMIN)
+    // @Roles(Role.ADMIN)
     async getStudents() {
         const students = await this.studentService.getAllStudents()
         if (students) {
